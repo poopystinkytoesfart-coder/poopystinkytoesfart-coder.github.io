@@ -1,1 +1,421 @@
-<!DOCTYPE html> <html lang="en"> <head> <meta property="og:title" content="Free Movies Folder"> <meta property="og:description" content="The free movie folder." /> <meta charset="UTF-8" /> <meta name="viewport" content="width=device-width,initial-scale=1" /> <title>Free Movies Folder</title> <link rel="icon" href="https://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png"> <style> * { box-sizing: border-box; } body { margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%); color: #f0f0f0; line-height: 1.6; min-height: 100vh; transition: all 0.3s ease; } /* Header Styles */ header { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); border-bottom: 2px solid #00ffff; position: relative; overflow: hidden; } header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%); animation: shine 3s infinite; } @keyframes shine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } } header h1 { background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-size: 4rem; margin: 0; text-shadow: 0 0 30px rgba(255, 215, 0, 0.5); animation: glow 2s ease-in-out infinite alternate; } @keyframes glow { from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); } to { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); } } header h2 { color: #00ffff; font-size: 2.5rem; margin: 0.5rem 0; text-shadow: 0 0 20px rgba(0, 255, 255, 0.5); } /* Theme Toggle */ .theme-toggle { text-align: center; margin: 2rem 0; } .theme-toggle button { background: linear-gradient(145deg, #333, #555); color: white; border: none; padding: 0.8rem 1.5rem; border-radius: 25px; cursor: pointer; font-size: 1rem; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); } .theme-toggle button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4); } /* Main Content */ .main-content { max-width: 1200px; margin: 0 auto; padding: 2rem; } /* Search Bar */ .search-container { text-align: center; margin: 2rem 0; } .search-input { padding: 1rem; width: 80%; max-width: 500px; font-size: 1.1rem; border-radius: 25px; border: 2px solid #00ffff; background: rgba(0, 0, 0, 0.3); color: white; transition: all 0.3s ease; } .search-input:focus { outline: none; box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); } .search-input::placeholder { color: #ccc; } /* Movie Grid */ .movie-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin: 3rem 0; } .movie-button { background: linear-gradient(145deg, #007bff, #0051aa); color: white; border: none; padding: 2rem 1.5rem; font-size: 1.2rem; cursor: pointer; border-radius: 20px; transition: all 0.3s ease; text-align: center; font-weight: bold; box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2); position: relative; overflow: hidden; } .movie-button::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent); opacity: 0; transition: opacity 0.3s ease; } .movie-button:hover { background: linear-gradient(145deg, #00bfff, #007bff); transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0, 191, 255, 0.3); } .movie-button:hover::before { opacity: 1; } /* Video Container */ .video-container { display: none; margin: 2rem auto; padding: 2rem; background: linear-gradient(145deg, #1a1a2e, #16213e); border-radius: 20px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); max-width: 900px; text-align: center; border: 2px solid #00ffff; animation: fadeIn 0.5s ease-in-out; } .video-title { font-size: 2rem; margin-bottom: 1.5rem; color: #00ffff; text-shadow: 0 0 15px rgb
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta property="og:title" content="Free Movies Folder">
+  <meta property="og:description" content="The free movie folder." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Free Movies Folder</title>
+  <link rel="icon" href="https://icons.iconarchive.com/icons/custom-icon-design/flatastic-1/512/folder-icon.png">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      color: #f0f0f0;
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: all 0.3s ease;
+    }
+    
+    /* Header Styles */
+    header {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border-bottom: 2px solid #00ffff;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.1) 50%, transparent 70%);
+      animation: shine 3s infinite;
+    }
+    
+    @keyframes shine {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+    
+    header h1 {
+      background: linear-gradient(45deg, #ffd700, #ffed4e, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-size: 4rem;
+      margin: 0;
+      text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { text-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+      to { text-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
+    }
+    
+    header h2 {
+      color: #00ffff;
+      font-size: 2.5rem;
+      margin: 0.5rem 0;
+      text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+    
+    /* Theme Toggle */
+    .theme-toggle {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    
+    .theme-toggle button {
+      background: linear-gradient(145deg, #333, #555);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .theme-toggle button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Main Content */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    /* Search Bar */
+    .search-container {
+      text-align: center;
+      margin: 2rem 0;
+    }
+    
+    .search-input {
+      padding: 1rem;
+      width: 80%;
+      max-width: 500px;
+      font-size: 1.1rem;
+      border-radius: 25px;
+      border: 2px solid #00ffff;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      transition: all 0.3s ease;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+    }
+    
+    .search-input::placeholder {
+      color: #ccc;
+    }
+    
+    /* Movie Grid */
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .movie-button {
+      background: linear-gradient(145deg, #007bff, #0051aa);
+      color: white;
+      border: none;
+      padding: 2rem 1.5rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      border-radius: 20px;
+      transition: all 0.3s ease;
+      text-align: center;
+      font-weight: bold;
+      box-shadow: 0 8px 25px rgba(0, 123, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .movie-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .movie-button:hover {
+      background: linear-gradient(145deg, #00bfff, #007bff);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 191, 255, 0.3);
+    }
+    
+    .movie-button:hover::before {
+      opacity: 1;
+    }
+    
+    /* Video Container */
+    .video-container {
+      display: none;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: linear-gradient(145deg, #1a1a2e, #16213e);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      max-width: 900px;
+      text-align: center;
+      border: 2px solid #00ffff;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    
+    .video-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      color: #00ffff;
+      text-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+    
+    video {
+      width: 100%;
+      max-width: 800px;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+    }
+    
+    .back-button {
+      background: linear-gradient(145deg, #555, #777);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      cursor: pointer;
+      border-radius: 15px;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+    }
+    
+    .back-button:hover {
+      background: linear-gradient(145deg, #777, #555);
+      transform: translateY(-2px);
+    }
+    
+    /* Loading Animation */
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 3rem;
+      color: #00ffff;
+      font-size: 1.5rem;
+    }
+    
+    .loading-spinner {
+      border: 4px solid rgba(0, 255, 255, 0.3);
+      border-top: 4px solid #00ffff;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(15px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Light Theme */
+    body.light {
+      background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 50%, #d0d0d0 100%);
+      color: #333;
+    }
+    
+    body.light header {
+      background: linear-gradient(135deg, #e0e0e0 0%, #d0d0d0 50%, #c0c0c0 100%);
+      border-bottom: 2px solid #007bff;
+    }
+    
+    body.light .movie-button {
+      background: linear-gradient(145deg, #007bff, #0051aa);
+      color: white;
+    }
+    
+    body.light .video-container {
+      background: linear-gradient(145deg, #fff, #f0f0f0);
+      color: #333;
+      border-color: #007bff;
+    }
+    
+    body.light .search-input {
+      background: rgba(255, 255, 255, 0.8);
+      color: #333;
+      border-color: #007bff;
+    }
+    
+    body.light .search-input::placeholder {
+      color: #666;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.5rem;
+      }
+      
+      header h2 {
+        font-size: 1.8rem;
+      }
+      
+      .movie-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      
+      .movie-button {
+        padding: 1.5rem;
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Free Movies Folder</h1>
+  </header>
+
+  <div class="theme-toggle">
+    <button onclick="toggleTheme()">🌙 Toggle Theme</button>
+  </div>
+
+  <div class="main-content">
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer">
+      <h2 class="video-title" id="videoTitle">Select a movie</h2>
+      <video id="videoPlayer" controls>
+        <source id="videoSource" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <br>
+      <button class="back-button" onclick="goBack()">← Back to Movies</button>
+    </div>
+
+    <!-- Loading Animation -->
+    <div class="loader" id="loader">
+      <div class="loading-spinner"></div>
+      Loading movie...
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input type="text" class="search-input" id="search" placeholder="🔍 Search movies..." oninput="filterMovies()">
+    </div>
+
+    <!-- Movie Grid -->
+    <div class="movie-grid" id="movieGrid">
+      <button class="movie-button" onclick="loadVideo('Happy Gilmore 2 (2025)', 'https://tinyurl.com/HappyGilmoreNew2025')">
+        Happy Gilmore 2 (2025)
+      </button>
+      
+      <button class="movie-button" onclick="loadVideo('Dora and the Search for Sol Dorado (2025)', 'https://tinyurl.com/newdora2025')">
+        Dora and the Search for Sol Dorado (2025)
+      </button>
+      
+      <button class="movie-button" onclick="loadVideo('Superman (2025)', 'https://abra--5fa8a052.api.cosmic-crab.buzz/67c4d81bbfc3bc7ba12f5357037d5a36012f5a5b/www.UIndex.org%20%20%20%20-%20%20%20%20Superman%202025%201080p%20CAM%20x264-RGB/Superman%202025%201080p%20CAM%20x264-RGB.mkv?api-key=8acbcf1e-732c-4574-a3bf-27e6a85b86f1&download=true&token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NTIyNTM4OTMsInJhdGUiOiI1TSIsInJvbGUiOiJmcmVlIiwic2Vzc2lvbklEIjoiTVRjMU1ESTFOalUwTVh4T2QzZEJUa1pHUmxKR1RsRk9iRUpYVm10MFNsZHJaRlpSZWxwRVVsWlZNMVF3VWtwV1ZGWkpVVlU1VWxWRlZUQlJNSGhoVXpGR1FrNXJPVlZWUkVrd1ZXcEtTMUpyVWt0U1ZVVTlmSFFYQ1FPaHdhQXlfN2FrMDJBbkpOeXVxeGpwa1dJUXRiQU9hY2F6XzkxTCIsImRvbWFpbiI6IndlYnRvci5pbyIsImFnZW50IjoiTW96aWxsYS81LjAgKExpbnV4OyBBbmRyb2lkIDEwOyBLKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFNhZmFyaS81MzcuMzYiLCJyZW1vdGVBZGRyZXNzIjoiMTcyLjY4LjIzNC4xMCJ9.Kq_VgrsabNs5NRIJHAHT7FpppzYN0eI5nizRgjhw7E8')">
+        Superman (2025)
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function loadVideo(title, url) {
+      const loader = document.getElementById('loader');
+      const container = document.getElementById('videoContainer');
+      const player = document.getElementById('videoPlayer');
+      const source = document.getElementById('videoSource');
+      const titleEl = document.getElementById('videoTitle');
+      const movieGrid = document.getElementById('movieGrid');
+
+      // Hide movie grid and show loader
+      movieGrid.style.display = 'none';
+      container.style.display = 'none';
+      loader.style.display = 'block';
+      document.querySelector('.search-container').style.display = 'none';
+
+      // Simulate loading time
+      setTimeout(() => {
+        loader.style.display = 'none';
+        titleEl.textContent = title;
+        source.src = url;
+        player.load();
+        container.style.display = 'block';
+      }, 2000);
+    }
+
+    function goBack() {
+      const container = document.getElementById('videoContainer');
+      const movieGrid = document.getElementById('movieGrid');
+      const player = document.getElementById('videoPlayer');
+      
+      // Stop video playback
+      player.pause();
+      player.currentTime = 0;
+      
+      // Show movie grid and hide video
+      container.style.display = 'none';
+      movieGrid.style.display = 'grid';
+      document.querySelector('.search-container').style.display = 'block';
+    }
+
+    function filterMovies() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const buttons = document.querySelectorAll('.movie-button');
+      
+      buttons.forEach(button => {
+        const match = button.textContent.toLowerCase().includes(query);
+        button.style.display = match ? 'block' : 'none';
+      });
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      const button = document.querySelector('.theme-toggle button');
+      if (document.body.classList.contains('light')) {
+        button.textContent = '🌙 Dark Mode';
+      } else {
+        button.textContent = '☀️ Light Mode';
+      }
+    }
+  </script>
+</body>
+</html>
